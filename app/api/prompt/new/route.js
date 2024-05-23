@@ -1,5 +1,6 @@
 import { connectToDB } from "@utils/database";
 import Prompt from "@models/prompt";
+import { revalidatePath } from "next/cache";
 
 
 
@@ -14,6 +15,7 @@ export const POST  =  async (req) => {
             tag,
         });
         await newPrompt.save();
+        revalidatePath("/");
         return new Response(JSON.stringify(newPrompt), { status: 201 });
 
     } catch (error) {
